@@ -9,6 +9,7 @@ import (
 
 	cio "github.com/openbiox/bioctl/io"
 	clog "github.com/openbiox/bioctl/log"
+	"github.com/sirupsen/logrus"
 )
 
 var stdout, stderr []byte
@@ -24,8 +25,9 @@ func System(cmd *exec.Cmd, logPath string, quiet bool) error {
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
 
-	var logBash = clog.LoggerBash
-	var log = clog.Logger
+	var log = clog.New()
+	var logBash = log.WithFields(logrus.Fields{
+		"prefix": "BASH"})
 
 	cmdStr := ""
 	if logPath != "/dev/null" && logPath != "" {

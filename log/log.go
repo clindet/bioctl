@@ -1,9 +1,11 @@
 package log
 
 import (
+	"io/ioutil"
+	"os"
+
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	logrus "github.com/sirupsen/logrus"
-	"io/ioutil"
 )
 
 // Logger is the main logger of bioctl
@@ -22,10 +24,17 @@ func SetClassicStyle(Logger *logrus.Logger) {
 	})
 }
 
+// New Creates a new logger.
+func New() *logrus.Logger {
+	return logrus.New()
+}
+
 // SetQuietLog Set quiet log
 func SetQuietLog(log *logrus.Logger, quite string) {
 	if quite == "true" {
 		log.SetOutput(ioutil.Discard)
+	} else {
+		log.SetOutput(os.Stderr)
 	}
 }
 

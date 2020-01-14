@@ -23,6 +23,7 @@ var ParCmd = &cobra.Command{
 	Short: "A simple parallel task manager.",
 	Long:  `A simple parallel task manager.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		ParClis.Quiet = rootClis.Quiet
 		clog.SetQuietLog(log, rootClis.Quiet)
 		parCmdRunOptions(cmd)
 	},
@@ -58,7 +59,6 @@ func init() {
 	ParCmd.Flags().IntVarP(&ParClis.Thread, "thread", "t", 1, "Thread to process.")
 	ParCmd.Flags().StringVarP(&(ParClis.TaskID), "task-id", "", stringo.RandString(15), "Task ID (random).")
 	ParCmd.Flags().StringVarP(&(ParClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "Log dir.")
-	ParClis.Quiet = rootClis.Quiet
 	ParClis.ForceAddIdx = strings.ToLower(ParClis.ForceAddIdx)
 	ParCmd.Example = `  # concurent 2 tasks with total 8 tasks
   echo 'echo $1 $2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10

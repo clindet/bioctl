@@ -53,7 +53,7 @@ func Execute() {
 
 func init() {
 	rootCmd.Version = "0.1.0"
-	rootCmd.PersistentFlags().StringVarP(&rootClis.Quiet, "quite", "q", "true", "Wheather to print debug information [true or false]")
+	rootCmd.PersistentFlags().StringVarP(&rootClis.Quiet, "quite", "q", "true", "keep slient and drop debug information [true or false]")
 	rootCmd.AddCommand(FileCmd)
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)

@@ -20,8 +20,8 @@ var ParClis par.ClisT
 // ParCmd is the command line of bioctl par
 var ParCmd = &cobra.Command{
 	Use:   "par",
-	Short: "A simple parallel task manager.",
-	Long:  `A simple parallel task manager.`,
+	Short: "Run parallel tasks.",
+	Long:  `Run parallel tasks.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ParClis.Quiet = rootClis.Quiet
 		clog.SetQuietLog(log, rootClis.Quiet)
@@ -52,13 +52,13 @@ func parCmdRunOptions(cmd *cobra.Command) {
 
 func init() {
 	wd, _ = os.Getwd()
-	ParCmd.Flags().StringVarP(&ParClis.Index, "index", "", "", "Task index (e.g. 1,2,5-10).")
-	ParCmd.Flags().StringVarP(&ParClis.ForceAddIdx, "force-idx", "", "true", "Force to add {{index}} at the end of --cmd.")
-	ParCmd.Flags().StringVarP(&ParClis.Env, "env", "", "", "Env (key1:value1,key2:value2).")
-	ParCmd.Flags().StringVarP(&ParClis.Script, "cmd", "", "", "Command string.")
-	ParCmd.Flags().IntVarP(&ParClis.Thread, "thread", "t", 1, "Thread to process.")
-	ParCmd.Flags().StringVarP(&(ParClis.TaskID), "task-id", "", stringo.RandString(15), "Task ID (random).")
-	ParCmd.Flags().StringVarP(&(ParClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "Log dir.")
+	ParCmd.Flags().StringVarP(&ParClis.Index, "index", "", "", "task index (e.g. 1,2,5-10).")
+	ParCmd.Flags().StringVarP(&ParClis.ForceAddIdx, "force-idx", "", "true", "force to add {{index}} at the end of --cmd.")
+	ParCmd.Flags().StringVarP(&ParClis.Env, "env", "", "", "environment (key1:value1,key2:value2).")
+	ParCmd.Flags().StringVarP(&ParClis.Script, "cmd", "", "", "command string.")
+	ParCmd.Flags().IntVarP(&ParClis.Thread, "thread", "t", 1, "thread to process.")
+	ParCmd.Flags().StringVarP(&(ParClis.TaskID), "task-id", "", stringo.RandString(15), "task ID (default is random).")
+	ParCmd.Flags().StringVarP(&(ParClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "log dir.")
 	ParClis.ForceAddIdx = strings.ToLower(ParClis.ForceAddIdx)
 	ParCmd.Example = `  # concurent 2 tasks with total 8 tasks
   echo 'echo $1 $2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10
@@ -73,5 +73,5 @@ func init() {
   bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --force-idx false
 	
   # pipe usage
-  echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -`
+	echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -`
 }

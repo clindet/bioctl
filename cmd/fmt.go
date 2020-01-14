@@ -63,11 +63,11 @@ func fmtCmdRunOptions(cmd *cobra.Command) {
 }
 
 func init() {
-	FmtCmd.Flags().IntVarP(&FmtClis.Thread, "thread", "t", 1, "Thread to process.")
-	FmtCmd.Flags().BoolVarP(&FmtClis.JSONToSlice, "json-to-slice", "", false, "Convert key-value JSON  to []key-value and easy to export to readable table.")
-	FmtCmd.Flags().BoolVarP(&FmtClis.PrettyJSON, "json-pretty", "", false, "Pretty json files.")
-	FmtCmd.Flags().IntVarP(&FmtClis.Indent, "indent", "", 4, "Control the indent of output json files.")
-	FmtCmd.Flags().BoolVarP(&FmtClis.SortKeys, "sort-keys", "", false, "Control wheather to sort JSON key.")
+	FmtCmd.Flags().IntVarP(&FmtClis.Thread, "thread", "t", 1, "thread to process.")
+	FmtCmd.Flags().BoolVarP(&FmtClis.JSONToSlice, "json-to-slice", "", false, "convert key-value JSON  to []key-value and easy to export to readable table.")
+	FmtCmd.Flags().BoolVarP(&FmtClis.PrettyJSON, "json-pretty", "", false, "pretty json files.")
+	FmtCmd.Flags().IntVarP(&FmtClis.Indent, "indent", "", 4, "control the indent of output json files.")
+	FmtCmd.Flags().BoolVarP(&FmtClis.SortKeys, "sort-keys", "", false, "control wheather to sort JSON key.")
 	FmtCmd.Example = `  bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damage to induce autophagy OR MTOR-independent autophagy induced by interrupted endoplasmic reticulum-mitochondrial Ca2+ communication: a dead end in cancer cells. OR The PARK10 gene USP24 is a negative regulator of autophagy and ULK1 protein stability OR Coordinate regulation of autophagy and the ubiquitin proteasome system by MTOR." | bget api ncbi --xml2json pubmed - | sed 's;}{;,;g' | bioctl fmt --json-to-slice --indent 4 -| json2csv -o final.csv`
 	JSON := make(map[int]map[string]interface{})
 	FmtClis.JSON = &JSON

@@ -4,33 +4,34 @@ import (
 	"fmt"
 	"os"
 
-	glog "github.com/openbiox/ganker/log"
+	clog "github.com/openbiox/bioctl/log"
 	"github.com/spf13/cobra"
 )
 
-// RootClisT is the ganker global flags
+// RootClisT is the bioctl global flags
 type RootClisT struct {
-	// version of ganker
+	// version of bioctl
 	Version string
 	// print debug inforamtion
-	Quite string
+	Quiet string
 	// help flag
 	HelpFlags bool
 }
 
 var rootClis = RootClisT{
 	Version:   "v0.0.1",
-	Quite:     "true",
+	Quiet:     "true",
 	HelpFlags: true,
 }
-var log = glog.Logger
+var wd string
+var log = clog.Logger
 
 var rootCmd = &cobra.Command{
-	Use:   "ganker",
+	Use:   "bioctl",
 	Short: "Just for fun of bioinformatics.",
-	Long:  `Cross-platform command line tools to process sequence, alignment, count, and associated files. More see here https://github.com/openbiox/ganker.`,
+	Long:  `Cross-platform command line tools to process sequence, alignment, count, and associated files. More see here https://github.com/openbiox/bioctl.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		setQuietLog(log, rootClis.Quite)
+		clog.SetQuietLog(log, rootClis.Quiet)
 		rootClis.HelpFlags = true
 		if rootClis.HelpFlags {
 			cmd.Help()
@@ -51,6 +52,9 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&rootClis.Quite, "quite", "q", "true", "Wheather to print debug information [true or false]")
+	rootCmd.Version = "0.1.0"
+	rootCmd.PersistentFlags().StringVarP(&rootClis.Quiet, "quite", "q", "true", "Wheather to print debug information [true or false]")
 	rootCmd.AddCommand(FileCmd)
+	rootCmd.AddCommand(FmtCmd)
+	rootCmd.AddCommand(ParCmd)
 }

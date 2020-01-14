@@ -10,14 +10,56 @@ import (
 	"sync"
 )
 
+// CounterByNameSlice abstract func to conduct slice counter
+func CounterByNameSlice(files *[]string,
+	f func(filename string) (int64, error)) (*map[string]int64, int64, []error) {
+	countMap := make(map[string]int64)
+	errs := []error{}
+
+	if len(*files) == 0 {
+		return &countMap, 0, nil
+	}
+	var wg sync.WaitGroup
+	var total int64
+	var lock sync.Mutex
+	wg.Add(len(*files))
+	for i := range *files {
+		go func(i int64) {
+			c, err := f((*files)[i])
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				lock.Lock()
+				countMap[(*files)[i]] = c
+				lock.Unlock()
+				total = total + c
+			}
+			wg.Done()
+		}(int64(i))
+	}
+	wg.Wait()
+	sslice := []string{}
+	for key := range countMap {
+		sslice = append(sslice, key)
+	}
+	sort.Strings(sslice)
+	for _, v := range sslice {
+		fmt.Printf("%d\t%s\n", countMap[v], v)
+	}
+	if len(sslice) > 0 {
+		fmt.Printf("%d\ttotal\n", total)
+	}
+	return &countMap, total, errs
+}
+
 // LineCounter can be used to count file N lines.
 // modifed from https://ask.csdn.net/questions/1009986?sort=comments_count
-func LineCounter(r io.Reader) (int, error) {
+func LineCounter(r io.Reader) (int64, error) {
 	var newLineChr byte
-	var readSize int
+	var readSizeTmp int
+	var readSize int64
 	var err error
-	var count int
-
+	var count int64
 	buf := make([]byte, 1024)
 	if runtime.GOOS == "linux" {
 		newLineChr = '\n'
@@ -28,14 +70,15 @@ func LineCounter(r io.Reader) (int, error) {
 	}
 
 	for {
-		readSize, err = r.Read(buf)
+		readSizeTmp, err = r.Read(buf)
+		readSize = int64(readSizeTmp)
 		if err != nil {
 			break
 		}
 
-		var buffPosition int
+		var buffPosition int64
 		for {
-			i := bytes.IndexByte(buf[buffPosition:], newLineChr)
+			i := int64(bytes.IndexByte(buf[buffPosition:], newLineChr))
 			if i == -1 || readSize == buffPosition {
 				break
 			}
@@ -53,8 +96,10 @@ func LineCounter(r io.Reader) (int, error) {
 	return count - 1, err
 }
 
-// LineCounterName count lines from file
-func LineCounterName(filename string) (count int, err error) {
+// LineCounterByName count lines from file
+func LineCounterByName(filename string) (int64, error) {
+	var err error
+	var count int64
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
 		return -1, err
 	}
@@ -69,44 +114,45 @@ func LineCounterName(filename string) (count int, err error) {
 	return count, nil
 }
 
-// CountLineNameSlice count lines from filename slice
+// LineCounterByNameSlice count lines from filename slice
 // returns countMap, total , errs
-func CountLineNameSlice(files []string) (*map[string]int, int, []error) {
-	countMap := make(map[string]int)
-	errs := []error{}
+func LineCounterByNameSlice(files []string) (*map[string]int64, int64, []error) {
+	return CounterByNameSlice(&files, LineCounterByName)
+}
 
-	if len(files) == 0 {
-		return &countMap, 0, nil
+// BytesCounter calculate the bytes of input stream
+func BytesCounter(r io.Reader) (int64, error) {
+	var readSizeTmp int
+	var err error
+	buf := make([]byte, 1024)
+	var total int64
+	for {
+		readSizeTmp, err = r.Read(buf)
+		total = total + int64(readSizeTmp)
+		if err != nil {
+			break
+		}
+		if err == io.EOF {
+			return total, nil
+		}
 	}
-	var wg sync.WaitGroup
-	var total int
-	var lock sync.Mutex
-	wg.Add(len(files))
-	for i := range files {
-		go func(i int) {
-			c, err := LineCounterName(files[i])
-			if err != nil {
-				errs = append(errs, err)
-			} else {
-				lock.Lock()
-				countMap[files[i]] = c
-				lock.Unlock()
-				total = total + c
-			}
-			wg.Done()
-		}(i)
+	return total, err
+}
+
+// BytesCounterByName calculate the bytes of input stream
+func BytesCounterByName(filename string) (int64, error) {
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		return -1, err
 	}
-	wg.Wait()
-	sslice := []string{}
-	for key := range countMap {
-		sslice = append(sslice, key)
+	fileInfo, err := os.Stat(filename)
+	if err != nil {
+		return -1, err
 	}
-	sort.Strings(sslice)
-	for _, v := range sslice {
-		fmt.Printf("%d\t%s\n", countMap[v], v)
-	}
-	if len(sslice) > 0 {
-		fmt.Printf("%d\ttotal\n", total)
-	}
-	return &countMap, total, errs
+	return fileInfo.Size(), nil
+}
+
+// BytesCounterByNameSlice count bytes from filename slice
+// returns countMap, total , errs
+func BytesCounterByNameSlice(files []string) (*map[string]int64, int64, []error) {
+	return CounterByNameSlice(&files, BytesCounterByName)
 }

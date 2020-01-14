@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/openbiox/ganker/cmd"
+	"github.com/openbiox/bioctl/cmd"
 )
 
 func main() {

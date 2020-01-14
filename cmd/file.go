@@ -1,7 +1,8 @@
 package cmd
 
 import (
-	gfile "github.com/openbiox/ganker/file"
+	gfile "github.com/openbiox/bioctl/file"
+	clog "github.com/openbiox/bioctl/log"
 	"github.com/spf13/cobra"
 )
 
@@ -20,23 +21,31 @@ var FileClis = FileClisT{}
 
 // FileCmd is the command line cobra object for basic file operations
 var FileCmd = &cobra.Command{
-	Use:   "f",
+	Use:   "fn",
 	Short: "Basic file operations.",
 	Long:  `Basic file operations..`,
 	Run: func(cmd *cobra.Command, args []string) {
-		setQuietLog(log, rootClis.Quite)
+		clog.SetQuietLog(log, rootClis.Quiet)
 		fileCmdOptions(cmd, args)
 	},
 }
 
 func fileCmdOptions(cmd *cobra.Command, args []string) {
-	_, _, err := gfile.CountLineNameSlice(args)
+	err := []error{}
+	if FileClis.CountLines {
+		_, _, err = gfile.LineCounterByNameSlice(args)
+		rootClis.HelpFlags = false
+
+	} else if FileClis.CountBytes {
+		_, _, err = gfile.BytesCounterByNameSlice(args)
+		rootClis.HelpFlags = false
+	}
 	if err != nil {
 		for _, v := range err {
 			log.Warnln(v)
 		}
-		rootClis.HelpFlags = false
 	}
+	// || FileClis.CountWords  || FileClis.CountChars ||
 	if rootClis.HelpFlags {
 		cmd.Help()
 	}
@@ -44,8 +53,6 @@ func fileCmdOptions(cmd *cobra.Command, args []string) {
 
 func init() {
 	FileCmd.Flags().BoolVarP(&FileClis.CountLines, "count-lines", "l", false, "Count the lines")
-	FileCmd.Flags().BoolVarP(&FileClis.CountChars, "count-chars", "", false, "Count the chars")
-	FileCmd.Flags().BoolVarP(&FileClis.CountBytes, "count-bytes", "", false, "Count the bytes")
-	FileCmd.Flags().BoolVarP(&FileClis.CountWords, "count-words", "", false, "Count the words")
+	FileCmd.Flags().BoolVarP(&FileClis.CountBytes, "count-bytes", "c", false, "Count the bytes")
 	FileCmd.Flags().StringVarP(&FileClis.Format, "format", "", "plain", "Set the output format [plain, json, table]")
 }

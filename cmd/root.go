@@ -19,7 +19,7 @@ type RootClisT struct {
 }
 
 var rootClis = RootClisT{
-	Version:   "v0.0.1",
+	Version:   "v0.1.0",
 	Quiet:     "true",
 	HelpFlags: true,
 }
@@ -28,8 +28,8 @@ var log = clog.Logger
 
 var rootCmd = &cobra.Command{
 	Use:   "bioctl",
-	Short: "Just for fun of bioinformatics.",
-	Long:  `Cross-platform command line tools to process sequence, alignment, count, and associated files. More see here https://github.com/openbiox/bioctl.`,
+	Short: "A simple command line tool to facilitate the data analysis",
+	Long:  `A simple command line tool to facilitate the data analysis. More see here https://github.com/openbiox/bioctl.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		clog.SetQuietLog(log, rootClis.Quiet)
 		rootClis.HelpFlags = true

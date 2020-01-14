@@ -1,6 +1,7 @@
 package log
 
 import (
+	"io"
 	"io/ioutil"
 	"os"
 
@@ -33,6 +34,19 @@ func New() *logrus.Logger {
 func SetQuietLog(log *logrus.Logger, quite string) {
 	if quite == "true" {
 		log.SetOutput(ioutil.Discard)
+	} else {
+		log.SetOutput(os.Stderr)
+	}
+}
+
+// SetLogStream set log output stream
+func SetLogStream(quiet bool, saveLog bool, logCon *io.Writer) {
+	if quiet && !saveLog {
+		log.SetOutput(ioutil.Discard)
+	} else if quiet && saveLog {
+		log.SetOutput(*logCon)
+	} else if !quiet && saveLog {
+		log.SetOutput(io.MultiWriter(os.Stderr, *logCon))
 	} else {
 		log.SetOutput(os.Stderr)
 	}

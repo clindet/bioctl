@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	gfile "github.com/openbiox/bioctl/file"
-	clog "github.com/openbiox/bioctl/log"
+	gfile "github.com/openbiox/ligo/file"
 	"github.com/spf13/cobra"
 )
 
@@ -18,19 +17,21 @@ type FileClisT struct {
 
 // FileClis is the parameters to run FileCmd
 var FileClis = FileClisT{}
+var fileSubCmdName = "fn"
 
 // FileCmd is the command line cobra object for basic file operations
 var FileCmd = &cobra.Command{
-	Use:   "fn",
+	Use:   fileSubCmdName,
 	Short: "Conduct basic file operations.",
 	Long:  `Conduct basic file operations.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		clog.SetQuietLog(log, rootClis.Quiet)
+		initCmd()
 		fileCmdOptions(cmd, args)
 	},
 }
 
 func fileCmdOptions(cmd *cobra.Command, args []string) {
+	logBash.Infof("%s %s", cmd.CommandPath(), cmd.CalledAs())
 	err := []error{}
 	if FileClis.CountLines {
 		_, _, err = gfile.LineCounterByNameSlice(args)

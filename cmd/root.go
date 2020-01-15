@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"os"
 
-	clog "github.com/openbiox/bioctl/log"
 	"github.com/spf13/cobra"
 )
 
 // RootClisT is the bioctl global flags
 type RootClisT struct {
 	// version of bioctl
-	Version string
-	// print debug inforamtion
-	Quiet string
-	// help flag
+	Version   string
+	Quiet     string
+	SaveLog   string
+	TaskID    string
+	LogDir    string
+	Clean     bool
 	HelpFlags bool
 }
 
@@ -23,16 +24,13 @@ var rootClis = RootClisT{
 	Quiet:     "true",
 	HelpFlags: true,
 }
-var wd string
-var log = clog.Logger
 
 var rootCmd = &cobra.Command{
 	Use:   "bioctl",
 	Short: "A simple command line tool to facilitate the data analysis",
 	Long:  `A simple command line tool to facilitate the data analysis. More see here https://github.com/openbiox/bioctl.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		clog.SetQuietLog(log, rootClis.Quiet)
-		rootClis.HelpFlags = true
+		initCmd()
 		if rootClis.HelpFlags {
 			cmd.Help()
 		}
@@ -53,8 +51,8 @@ func Execute() {
 
 func init() {
 	rootCmd.Version = "0.1.0"
-	rootCmd.PersistentFlags().StringVarP(&rootClis.Quiet, "quite", "q", "true", "keep slient and drop debug information [true or false]")
 	rootCmd.AddCommand(FileCmd)
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)
+	setGlobalFlag(rootCmd)
 }

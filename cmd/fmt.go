@@ -7,9 +7,8 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/openbiox/bioctl/flag"
-	gfmt "github.com/openbiox/bioctl/fmt"
-	clog "github.com/openbiox/bioctl/log"
+	"github.com/openbiox/ligo/flag"
+	gfmt "github.com/openbiox/ligo/fmt"
 	"github.com/spf13/cobra"
 )
 
@@ -22,7 +21,7 @@ var FmtCmd = &cobra.Command{
 	Short: "A set of format (fmt) command.",
 	Long:  `A set of format (fmt) command.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		clog.SetQuietLog(log, rootClis.Quiet)
+		initCmd()
 		fmtCmdRunOptions(cmd)
 	},
 }

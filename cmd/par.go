@@ -4,13 +4,10 @@ import (
 	"bufio"
 	"io/ioutil"
 	"os"
-	"path"
 	"strings"
 
-	"github.com/openbiox/bioctl/flag"
-	clog "github.com/openbiox/bioctl/log"
-	"github.com/openbiox/bioctl/par"
-	stringo "github.com/openbiox/bioctl/stringo"
+	"github.com/openbiox/ligo/flag"
+	"github.com/openbiox/ligo/par"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +21,7 @@ var ParCmd = &cobra.Command{
 	Long:  `Run parallel tasks.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ParClis.Quiet = rootClis.Quiet
-		clog.SetQuietLog(log, rootClis.Quiet)
+		initCmd()
 		parCmdRunOptions(cmd)
 	},
 }
@@ -57,8 +54,6 @@ func init() {
 	ParCmd.Flags().StringVarP(&ParClis.Env, "env", "", "", "environment (key1:value1,key2:value2).")
 	ParCmd.Flags().StringVarP(&ParClis.Script, "cmd", "", "", "command string.")
 	ParCmd.Flags().IntVarP(&ParClis.Thread, "thread", "t", 1, "thread to process.")
-	ParCmd.Flags().StringVarP(&(ParClis.TaskID), "task-id", "", stringo.RandString(15), "task ID (default is random).")
-	ParCmd.Flags().StringVarP(&(ParClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "log dir.")
 	ParClis.ForceAddIdx = strings.ToLower(ParClis.ForceAddIdx)
 	ParCmd.Example = `  # concurent 2 tasks with total 8 tasks
   echo 'echo $1 $2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10

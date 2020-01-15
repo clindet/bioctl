@@ -5,3 +5,5 @@ Log.out
 _download
 vendor
 .DS_Store
+go.sum
+_log

@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	cvrt "github.com/openbiox/ligo/convert"
 	"github.com/openbiox/ligo/flag"
 	"github.com/openbiox/ligo/par"
 	"github.com/spf13/cobra"
@@ -21,12 +22,14 @@ var ParCmd = &cobra.Command{
 	Long:  `Run parallel tasks.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ParClis.Quiet = rootClis.Quiet
-		initCmd()
-		parCmdRunOptions(cmd)
+		ParClis.SaveLog = rootClis.SaveLog
+		ParClis.TaskID = rootClis.TaskID
+		ParClis.LogDir = rootClis.LogDir
+		parCmdRunOptions(cmd, args)
 	},
 }
 
-func parCmdRunOptions(cmd *cobra.Command) {
+func parCmdRunOptions(cmd *cobra.Command, args []string) {
 	cleanArgs := []string{}
 	hasStdin := false
 	if cleanArgs, hasStdin = flag.CheckStdInFlag(cmd); hasStdin {
@@ -39,6 +42,8 @@ func parCmdRunOptions(cmd *cobra.Command) {
 		}
 	}
 	if len(cleanArgs) >= 1 || hasStdin || ParClis.Script != "" {
+		initCmd(cmd, args)
+		logEnv.Infof("env (par): %v", cvrt.Struct2Map(ParClis))
 		par.Tasks(&ParClis)
 		rootClis.HelpFlags = false
 	}
@@ -48,7 +53,6 @@ func parCmdRunOptions(cmd *cobra.Command) {
 }
 
 func init() {
-	wd, _ = os.Getwd()
 	ParCmd.Flags().StringVarP(&ParClis.Index, "index", "", "", "task index (e.g. 1,2,5-10).")
 	ParCmd.Flags().StringVarP(&ParClis.ForceAddIdx, "force-idx", "", "true", "force to add {{index}} at the end of --cmd.")
 	ParCmd.Flags().StringVarP(&ParClis.Env, "env", "", "", "environment (key1:value1,key2:value2).")
@@ -68,5 +72,5 @@ func init() {
   bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --force-idx false
 	
   # pipe usage
-	echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -`
+  echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -`
 }

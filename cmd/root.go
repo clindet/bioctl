@@ -11,8 +11,8 @@ import (
 type RootClisT struct {
 	// version of bioctl
 	Version   string
-	Quiet     string
-	SaveLog   string
+	Quiet     bool
+	SaveLog   bool
 	TaskID    string
 	LogDir    string
 	Clean     bool
@@ -21,7 +21,7 @@ type RootClisT struct {
 
 var rootClis = RootClisT{
 	Version:   "v0.1.0",
-	Quiet:     "true",
+	Quiet:     false,
 	HelpFlags: true,
 }
 
@@ -30,7 +30,6 @@ var rootCmd = &cobra.Command{
 	Short: "A simple command line tool to facilitate the data analysis",
 	Long:  `A simple command line tool to facilitate the data analysis. More see here https://github.com/openbiox/bioctl.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		initCmd()
 		if rootClis.HelpFlags {
 			cmd.Help()
 		}

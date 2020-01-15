@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	cvrt "github.com/openbiox/ligo/convert"
 	gfile "github.com/openbiox/ligo/file"
 	"github.com/spf13/cobra"
 )
@@ -25,14 +26,16 @@ var FileCmd = &cobra.Command{
 	Short: "Conduct basic file operations.",
 	Long:  `Conduct basic file operations.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		initCmd()
 		fileCmdOptions(cmd, args)
 	},
 }
 
 func fileCmdOptions(cmd *cobra.Command, args []string) {
-	logBash.Infof("%s %s", cmd.CommandPath(), cmd.CalledAs())
 	err := []error{}
+	if FileClis.CountLines || FileClis.CountBytes {
+		initCmd(cmd, args)
+		logEnv.Infof("env (fn): %v", cvrt.Struct2Map(FileClis))
+	}
 	if FileClis.CountLines {
 		_, _, err = gfile.LineCounterByNameSlice(args)
 		rootClis.HelpFlags = false

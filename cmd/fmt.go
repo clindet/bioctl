@@ -6,7 +6,9 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"strings"
 
+	cvrt "github.com/openbiox/ligo/convert"
 	"github.com/openbiox/ligo/flag"
 	gfmt "github.com/openbiox/ligo/fmt"
 	"github.com/spf13/cobra"
@@ -21,12 +23,11 @@ var FmtCmd = &cobra.Command{
 	Short: "A set of format (fmt) command.",
 	Long:  `A set of format (fmt) command.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		initCmd()
-		fmtCmdRunOptions(cmd)
+		fmtCmdRunOptions(cmd, args)
 	},
 }
 
-func fmtCmdRunOptions(cmd *cobra.Command) {
+func fmtCmdRunOptions(cmd *cobra.Command, args []string) {
 	cleanArgs := []string{}
 	hasStdin := false
 	if cleanArgs, hasStdin = flag.CheckStdInFlag(cmd); hasStdin {
@@ -42,6 +43,9 @@ func fmtCmdRunOptions(cmd *cobra.Command) {
 	}
 
 	if len(cleanArgs) >= 1 || hasStdin {
+		initCmd(cmd, args)
+		logEnv.Infof("env (fmt): %v", cvrt.Struct2Map(FmtClis))
+		logBash.Infof("%s %s", cmd.CommandPath(), strings.Join(args, " "))
 		FmtClis.Files = &cleanArgs
 		runFlag := false
 		if FmtClis.PrettyJSON {

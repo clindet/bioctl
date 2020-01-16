@@ -30,16 +30,16 @@ go get -u github.com/openbiox/bioctl
 
 ```bash
 # concurent 2 tasks with total 8 tasks
-echo 'echo $1 $2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10
+echo 'touch /tmp/$1 /tmp/$2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10
 # concurent 4 tasks with total 8 tasks and env parse
 bioctl par --cmd 'sh job.sh {{index}} {{key2}}' -t 4 --index 1,2,5-10 --env "key2:123"
 
-# concurent 4 tasks with total 8 tasks (direct) and env
-bioctl par --cmd 'echo {{index}} {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123"
+# concurent 4 tasks with total 8 tasks (direct) and env parse (more log)
+bioctl par --cmd 'echo {{index}} {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --verbose 2 --save-log
 
 # concurent 4 tasks with total 8 tasks, env
 # and not to force add {{index}} at the end of cmd
-bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --force-idx false
+bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --force-idx false --save-log
 
 # pipe usage
 echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -
@@ -60,6 +60,8 @@ bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damag
 # file stat
 # equal to wc -l
 bioctl fn -l *
+
+bioctl fn -l * --verbose 0
 ```
 
 ## Maintainer

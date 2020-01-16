@@ -6,7 +6,6 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"strings"
 
 	cvrt "github.com/openbiox/ligo/convert"
 	"github.com/openbiox/ligo/flag"
@@ -44,8 +43,9 @@ func fmtCmdRunOptions(cmd *cobra.Command, args []string) {
 
 	if len(cleanArgs) >= 1 || hasStdin {
 		initCmd(cmd, args)
-		logEnv.Infof("env (fmt): %v", cvrt.Struct2Map(FmtClis))
-		logBash.Infof("%s %s", cmd.CommandPath(), strings.Join(args, " "))
+		if rootClis.Verbose == 2 {
+			logEnv.Infof("env (fmt): %v", cvrt.Struct2Map(FmtClis))
+		}
 		FmtClis.Files = &cleanArgs
 		runFlag := false
 		if FmtClis.PrettyJSON {

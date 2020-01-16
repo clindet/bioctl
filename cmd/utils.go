@@ -24,7 +24,7 @@ var wd string
 
 func setGlobalFlag(cmd *cobra.Command) {
 	wd, _ = os.Getwd()
-	cmd.PersistentFlags().BoolVarP(&(rootClis.Quiet), "quite", "q", false, "no output")
+	cmd.PersistentFlags().IntVarP(&(rootClis.Verbose), "verbose", "", 1, "verbose level(0:no output, 1: basic level, 2: with env info")
 	cmd.PersistentFlags().StringVarP(&(rootClis.TaskID), "task-id", "", stringo.RandString(15), "task ID (default is random).")
 	cmd.PersistentFlags().StringVarP(&(rootClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "log dir.")
 	cmd.PersistentFlags().BoolVarP(&(rootClis.SaveLog), "save-log", "s", false, "Save log to file.")
@@ -32,9 +32,11 @@ func setGlobalFlag(cmd *cobra.Command) {
 }
 func initCmd(cmd *cobra.Command, args []string) {
 	setLog()
-	logEnv.Infof("prog: %s", cmd.CommandPath())
-	logEnv.Infof("args: %s", strings.Join(args, " "))
-	logEnv.Infof("env (global): %v", cvrt.Struct2Map(rootClis))
+	if rootClis.Verbose == 2 {
+		logEnv.Infof("prog: %s", cmd.CommandPath())
+		logEnv.Infof("args: %s", strings.Join(args, " "))
+		logEnv.Infof("env (global): %v", cvrt.Struct2Map(rootClis))
+	}
 	if rootClis.Clean {
 		cleanLog()
 	}
@@ -53,7 +55,7 @@ func setLog() {
 		cio.CreateDir(logDir)
 		logCon, _ = cio.Open(logPrefix + ".log")
 	}
-	clog.SetLogStream(log, rootClis.Quiet, rootClis.SaveLog, &logCon)
+	clog.SetLogStream(log, rootClis.Verbose == 0, rootClis.SaveLog, &logCon)
 }
 
 func cleanLog() {

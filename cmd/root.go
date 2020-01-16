@@ -7,11 +7,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var version = "v0.1.0-1"
+
 // RootClisT is the bioctl global flags
 type RootClisT struct {
 	// version of bioctl
 	Version   string
-	Quiet     bool
+	Verbose   int
 	SaveLog   bool
 	TaskID    string
 	LogDir    string
@@ -21,7 +23,7 @@ type RootClisT struct {
 
 var rootClis = RootClisT{
 	Version:   "v0.1.0",
-	Quiet:     false,
+	Verbose:   1,
 	HelpFlags: true,
 }
 
@@ -30,6 +32,9 @@ var rootCmd = &cobra.Command{
 	Short: "A simple command line tool to facilitate the data analysis",
 	Long:  `A simple command line tool to facilitate the data analysis. More see here https://github.com/openbiox/bioctl.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if rootClis.Clean {
+			initCmd(cmd, args)
+		}
 		if rootClis.HelpFlags {
 			cmd.Help()
 		}
@@ -49,7 +54,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Version = "0.1.0"
+	rootCmd.Version = version
 	rootCmd.AddCommand(FileCmd)
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)

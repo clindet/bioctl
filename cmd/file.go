@@ -34,7 +34,9 @@ func fileCmdOptions(cmd *cobra.Command, args []string) {
 	err := []error{}
 	if FileClis.CountLines || FileClis.CountBytes {
 		initCmd(cmd, args)
-		logEnv.Infof("env (fn): %v", cvrt.Struct2Map(FileClis))
+		if rootClis.Verbose == 2 {
+			logEnv.Infof("env (fn): %v", cvrt.Struct2Map(FileClis))
+		}
 	}
 	if FileClis.CountLines {
 		_, _, err = gfile.LineCounterByNameSlice(args)

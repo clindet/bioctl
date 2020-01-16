@@ -21,7 +21,7 @@ var ParCmd = &cobra.Command{
 	Short: "Run parallel tasks.",
 	Long:  `Run parallel tasks.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		ParClis.Quiet = rootClis.Quiet
+		ParClis.Verbose = rootClis.Verbose
 		ParClis.SaveLog = rootClis.SaveLog
 		ParClis.TaskID = rootClis.TaskID
 		ParClis.LogDir = rootClis.LogDir
@@ -43,7 +43,9 @@ func parCmdRunOptions(cmd *cobra.Command, args []string) {
 	}
 	if len(cleanArgs) >= 1 || hasStdin || ParClis.Script != "" {
 		initCmd(cmd, args)
-		logEnv.Infof("env (par): %v", cvrt.Struct2Map(ParClis))
+		if rootClis.Verbose == 2 {
+			logEnv.Infof("env (par): %v", cvrt.Struct2Map(ParClis))
+		}
 		par.Tasks(&ParClis)
 		rootClis.HelpFlags = false
 	}
@@ -60,16 +62,16 @@ func init() {
 	ParCmd.Flags().IntVarP(&ParClis.Thread, "thread", "t", 1, "thread to process.")
 	ParClis.ForceAddIdx = strings.ToLower(ParClis.ForceAddIdx)
 	ParCmd.Example = `  # concurent 2 tasks with total 8 tasks
-  echo 'echo $1 $2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10
+  echo 'touch /tmp/$1 /tmp/$2; sleep ${1}' > job.sh && bioctl par --cmd "sh job.sh" -t 2 --index 1,2,5-10
   # concurent 4 tasks with total 8 tasks and env parse
   bioctl par --cmd 'sh job.sh {{index}} {{key2}}' -t 4 --index 1,2,5-10 --env "key2:123"
 	
-  # concurent 4 tasks with total 8 tasks (direct) and env
-  bioctl par --cmd 'echo {{index}} {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123"
+  # concurent 4 tasks with total 8 tasks (direct) and env parse (more log)
+  bioctl par --cmd 'echo {{index}} {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --verbose 2 --save-log
 	
   # concurent 4 tasks with total 8 tasks, env
   # and not to force add {{index}} at the end of cmd
-  bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --force-idx false
+  bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "key2:123" --force-idx false --save-log
 	
   # pipe usage
   echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -`

@@ -35,6 +35,7 @@ func initCmd(cmd *cobra.Command, args []string) {
 	setLog()
 	if rootClis.Verbose == 2 {
 		logEnv.Infof("Prog: %s", cmd.CommandPath())
+		logEnv.Infof("TaskID: %s", rootClis.TaskID)
 		if rootClis.SaveLog && logPrefix != "" {
 			logEnv.Infof("Log: %s.log", logPrefix)
 		}

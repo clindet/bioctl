@@ -58,5 +58,6 @@ func init() {
 	rootCmd.AddCommand(FnCmd)
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)
+	rootCmd.AddCommand(PlotCmd)
 	setGlobalFlag(rootCmd)
 }

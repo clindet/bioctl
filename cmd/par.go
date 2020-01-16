@@ -44,7 +44,7 @@ func parCmdRunOptions(cmd *cobra.Command, args []string) {
 	if len(cleanArgs) >= 1 || hasStdin || ParClis.Script != "" {
 		initCmd(cmd, args)
 		if rootClis.Verbose == 2 {
-			logEnv.Infof("env (par): %v", cvrt.Struct2Map(ParClis))
+			logEnv.Infof("ParClis: %v", cvrt.Struct2Map(ParClis))
 		}
 		par.Tasks(&ParClis)
 		rootClis.HelpFlags = false

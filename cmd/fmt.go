@@ -44,7 +44,7 @@ func fmtCmdRunOptions(cmd *cobra.Command, args []string) {
 	if len(cleanArgs) >= 1 || hasStdin {
 		initCmd(cmd, args)
 		if rootClis.Verbose == 2 {
-			logEnv.Infof("env (fmt): %v", cvrt.Struct2Map(FmtClis))
+			logEnv.Infof("fmtClis: %v", cvrt.Struct2Map(FmtClis))
 		}
 		FmtClis.Files = &cleanArgs
 		runFlag := false

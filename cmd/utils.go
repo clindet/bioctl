@@ -20,6 +20,7 @@ var log = clog.Logger
 var logBash = clog.LoggerBash
 var logEnv = log.WithFields(logrus.Fields{
 	"prefix": "Env"})
+var logPrefix string
 var wd string
 
 func setGlobalFlag(cmd *cobra.Command) {
@@ -33,9 +34,14 @@ func setGlobalFlag(cmd *cobra.Command) {
 func initCmd(cmd *cobra.Command, args []string) {
 	setLog()
 	if rootClis.Verbose == 2 {
-		logEnv.Infof("prog: %s", cmd.CommandPath())
-		logEnv.Infof("args: %s", strings.Join(args, " "))
-		logEnv.Infof("env (global): %v", cvrt.Struct2Map(rootClis))
+		logEnv.Infof("Prog: %s", cmd.CommandPath())
+		if rootClis.SaveLog && logPrefix != "" {
+			logEnv.Infof("Log: %s.log", logPrefix)
+		}
+		if len(args) > 0 {
+			logEnv.Infof("Args: %s", strings.Join(args, " "))
+		}
+		logEnv.Infof("Global: %v", cvrt.Struct2Map(rootClis))
 	}
 	if rootClis.Clean {
 		cleanLog()
@@ -45,7 +51,6 @@ func initCmd(cmd *cobra.Command, args []string) {
 func setLog() {
 	var logCon io.Writer
 	var logDir = rootClis.LogDir
-	var logPrefix string
 
 	if rootClis.SaveLog {
 		if logDir == "" {

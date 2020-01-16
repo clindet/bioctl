@@ -6,8 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// FileClisT is the type to run FileCmd
-type FileClisT struct {
+// FnClisT is the type to run FnCmd
+type FnClisT struct {
 	// CountLines run the countLine()
 	CountLines bool
 	CountChars bool
@@ -16,33 +16,33 @@ type FileClisT struct {
 	Format     string
 }
 
-// FileClis is the parameters to run FileCmd
-var FileClis = FileClisT{}
+// FnClis is the parameters to run FnCmd
+var FnClis = FnClisT{}
 var fileSubCmdName = "fn"
 
-// FileCmd is the command line cobra object for basic file operations
-var FileCmd = &cobra.Command{
+// FnCmd is the command line cobra object for basic file operations
+var FnCmd = &cobra.Command{
 	Use:   fileSubCmdName,
 	Short: "Conduct basic file operations.",
 	Long:  `Conduct basic file operations.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fileCmdOptions(cmd, args)
+		FnCmdOptions(cmd, args)
 	},
 }
 
-func fileCmdOptions(cmd *cobra.Command, args []string) {
+func FnCmdOptions(cmd *cobra.Command, args []string) {
 	err := []error{}
-	if FileClis.CountLines || FileClis.CountBytes {
+	if FnClis.CountLines || FnClis.CountBytes {
 		initCmd(cmd, args)
 		if rootClis.Verbose == 2 {
-			logEnv.Infof("env (fn): %v", cvrt.Struct2Map(FileClis))
+			logEnv.Infof("fnClis: %v", cvrt.Struct2Map(FnClis))
 		}
 	}
-	if FileClis.CountLines {
+	if FnClis.CountLines {
 		_, _, err = gfile.LineCounterByNameSlice(args)
 		rootClis.HelpFlags = false
 
-	} else if FileClis.CountBytes {
+	} else if FnClis.CountBytes {
 		_, _, err = gfile.BytesCounterByNameSlice(args)
 		rootClis.HelpFlags = false
 	}
@@ -51,14 +51,14 @@ func fileCmdOptions(cmd *cobra.Command, args []string) {
 			log.Warnln(v)
 		}
 	}
-	// || FileClis.CountWords  || FileClis.CountChars ||
+	// || FnClis.CountWords  || FnClis.CountChars ||
 	if rootClis.HelpFlags {
 		cmd.Help()
 	}
 }
 
 func init() {
-	FileCmd.Flags().BoolVarP(&FileClis.CountLines, "count-lines", "l", false, "count the lines")
-	FileCmd.Flags().BoolVarP(&FileClis.CountBytes, "count-bytes", "c", false, "count the bytes")
-	FileCmd.Flags().StringVarP(&FileClis.Format, "format", "", "plain", "set the output format [plain, json, table]")
+	FnCmd.Flags().BoolVarP(&FnClis.CountLines, "count-lines", "l", false, "count the lines")
+	FnCmd.Flags().BoolVarP(&FnClis.CountBytes, "count-bytes", "c", false, "count the bytes")
+	FnCmd.Flags().StringVarP(&FnClis.Format, "format", "", "plain", "set the output format [plain, json, table]")
 }

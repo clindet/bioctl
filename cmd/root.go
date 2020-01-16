@@ -55,7 +55,7 @@ func Execute() {
 
 func init() {
 	rootCmd.Version = version
-	rootCmd.AddCommand(FileCmd)
+	rootCmd.AddCommand(FnCmd)
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)
 	setGlobalFlag(rootCmd)

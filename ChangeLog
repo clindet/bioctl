@@ -1,3 +1,7 @@
+2020-01-17 Li Jianfeng <lee_jianfeng@sjtu.edu.cn>
+
+		* init arc, cvrt, extr, rand, range, time sub-command 
+
 2020-01-15 Li Jianfeng <lee_jianfeng@sjtu.edu.cn>
 
 		* log stream improvement

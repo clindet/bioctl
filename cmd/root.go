@@ -59,5 +59,11 @@ func init() {
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)
 	rootCmd.AddCommand(PlotCmd)
+	rootCmd.AddCommand(RangeCmd)
+	rootCmd.AddCommand(ExtractCmd)
+	rootCmd.AddCommand(RandCmd)
+	rootCmd.AddCommand(TimeCmd)
+	rootCmd.AddCommand(ConvertCmd)
+	rootCmd.AddCommand(ArchiveCmd)
 	setGlobalFlag(rootCmd)
 }

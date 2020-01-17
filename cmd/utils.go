@@ -26,7 +26,7 @@ var wd string
 func setGlobalFlag(cmd *cobra.Command) {
 	wd, _ = os.Getwd()
 	cmd.PersistentFlags().IntVarP(&(rootClis.Verbose), "verbose", "", 1, "verbose level(0:no output, 1: basic level, 2: with env info")
-	cmd.PersistentFlags().StringVarP(&(rootClis.TaskID), "task-id", "", stringo.RandString(15), "task ID (default is random).")
+	cmd.PersistentFlags().StringVarP(&(rootClis.TaskID), "task-id", "k", stringo.RandString(15), "task ID (default is random).")
 	cmd.PersistentFlags().StringVarP(&(rootClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "log dir.")
 	cmd.PersistentFlags().BoolVarP(&(rootClis.SaveLog), "save-log", "s", false, "Save log to file.")
 	cmd.PersistentFlags().BoolVarP(&(rootClis.Clean), "clean", "", false, "Remove log dir.")

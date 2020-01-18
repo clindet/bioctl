@@ -24,7 +24,7 @@ var ConvertClis ConvertClisT
 
 // ConvertCmd is the command line of bioctl Convert
 var ConvertCmd = &cobra.Command{
-	Use:   "cvrt",
+	Use:   "cvrt [xml1, xml2, ...]",
 	Short: "Convert related functions.",
 	Long:  `Convert related functions.`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -53,14 +53,14 @@ func ConvertCmdRunOptions(cmd *cobra.Command, args []string) {
 			if len(cleanArgs) >= 1 || len(stdin) > 0 {
 				ConvertClis.NcbiXMLPaths = append(ConvertClis.NcbiXMLPaths, cleanArgs...)
 				keywordsList := stringo.StrSplit(ConvertClis.NcbiKeywords, ", |,", 10000)
-				parse.PubmedXML(&ConvertClis.NcbiXMLPaths, &stdin, rootClis.Outfn, &keywordsList, rootClis.Thread)
+				parse.PubmedXML(&ConvertClis.NcbiXMLPaths, &stdin, rootClis.Out, &keywordsList, rootClis.Thread)
 			}
 			rootClis.HelpFlags = false
 		} else if ConvertClis.NcbiXMLToJSON == "sra" {
 			if len(cleanArgs) >= 1 || len(stdin) > 0 {
 				ConvertClis.NcbiXMLPaths = append(ConvertClis.NcbiXMLPaths, cleanArgs...)
 				keywordsList := stringo.StrSplit(ConvertClis.NcbiKeywords, ", |,", 10000)
-				parse.SraXML(&ConvertClis.NcbiXMLPaths, &stdin, rootClis.Outfn, &keywordsList, rootClis.Thread)
+				parse.SraXML(&ConvertClis.NcbiXMLPaths, &stdin, rootClis.Out, &keywordsList, rootClis.Thread)
 			}
 			rootClis.HelpFlags = false
 		}
@@ -72,12 +72,13 @@ func ConvertCmdRunOptions(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	ConvertCmd.Flags().StringVarP(&ConvertClis.NcbiXMLToJSON, "xml2json", "", "", "Convert XML files to json [e.g. pubmed, sra].")
+	ConvertCmd.Flags().StringVarP(&ConvertClis.NcbiXMLToJSON, "xml2json", "", "", "convert XML files to json [e.g. pubmed, sra].")
 	ConvertCmd.Flags().IntVarP(&rootClis.Thread, "thread", "t", 1, "thread to process.")
 
 	ConvertCmd.Example = `  # convert Pubmed XML to clean JSON string
-	bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damage to induce autophagy OR MTOR-independent autophagy induced by interrupted endoplasmic reticulum-mitochondrial Ca2+ communication: a dead end in cancer cells. OR The PARK10 gene USP24 is a negative regulator of autophagy and ULK1 protein stability OR Coordinate regulation of autophagy and the ubiquitin proteasome system by MTOR." | bioctl cvrt --xml2json pubmed
+  bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damage to induce autophagy OR MTOR-independent autophagy induced by interrupted endoplasmic reticulum-mitochondrial Ca2+ communication: a dead end in cancer cells. OR The PARK10 gene USP24 is a negative regulator of autophagy and ULK1 protein stability OR Coordinate regulation of autophagy and the ubiquitin proteasome system by MTOR." | bioctl cvrt --xml2json pubmed -
 	
-	# convert SRA XML to clean JSON string
-  bget api ncbi -d 'sra' -q PRJNA527715 | bioctl cvrt --xml2json sra -`
+  # convert SRA XML to clean JSON string
+  bget api ncbi -d 'sra' -q PRJNA527715 | bioctl cvrt --xml2json sra -
+  bget api ncbi -d 'sra' -q PRJNA527715 > test.xml && bioctl cvrt --xml2json sra test.xml`
 }

@@ -51,7 +51,7 @@ func plotCmdRunOptions(cmd *cobra.Command, args []string) {
 			logEnv.Infof("PlotClis: %v", cvrt.Struct2Map(PlotClis))
 		}
 		if PlotClis.ThemeName != "" {
-			fmt.Printf(`["%s"]`+"\n", strings.Join(plot.GetThemeColors(PlotClis.ThemeName).Colors, `", "`))
+			fmt.Printf("%s\n", strings.Join(plot.GetThemeColors(PlotClis.ThemeName).Colors, "\n"))
 		} else if PlotClis.ShowThemes {
 			dta, _ := json.MarshalIndent(plot.ThemeColors, "", "  ")
 			fmt.Println(string(dta))
@@ -60,7 +60,7 @@ func plotCmdRunOptions(cmd *cobra.Command, args []string) {
 			for _, v := range plot.ThemeColors {
 				names = append(names, v.Name)
 			}
-			fmt.Printf(`["%s"]`+"\n", strings.Join(names, `", "`))
+			fmt.Printf("%s\n", strings.Join(names, "\n"))
 		}
 		rootClis.HelpFlags = false
 	}

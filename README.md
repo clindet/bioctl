@@ -8,15 +8,15 @@
 
 ```bash
 # windows
-wget https://github.com/openbiox/bioctl/releases/download/v0.1.0/bioctl.exe
+wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl.exe
 
 # osx
-wget https://github.com/openbiox/bioctl/releases/download/v0.1.0/bioctl_osx
+wget https://github.com/openbiox/bioctl/releases/download/v0.1./bioctl_osx
 mv bioctl_osx bioctl
 chmod a+x bioctl
 
 # linux
-wget https://github.com/openbiox/bioctl/releases/download/v0.1.0/bioctl_linux64
+wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl_linux64
 mv bioctl_linux64 bioctl
 chmod a+x bioctl
 
@@ -45,7 +45,22 @@ bioctl par --cmd 'echo {{key2}}; sleep {{index}}' -t 4 --index 1,2,5-10 --env "k
 echo 'sh job.sh' | bioctl par -t 4 --index 1,2,5-10 -
 ```
 
+### Convert function
+
+- support convert PubMed and SRA abstract from XML => JSON
+
+```bash
+# convert PubMed XML to JSON
+bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damage to induce autophagy OR MTOR-independent autophagy induced by interrupted endoplasmic reticulum-mitochondrial Ca2+ communication: a dead end in cancer cells. OR The PARK10 gene USP24 is a negative regulator of autophagy and ULK1 protein stability OR Coordinate regulation of autophagy and the ubiquitin proteasome system by MTOR." | bioctl cvrt --xml2json pubmed -
+
+# convert SRA XML to JSON
+bget api ncbi -d 'sra' -q PRJNA527715 | bioctl cvrt --xml2json sra -
+```
+
 ### Format function
+
+- support to prettify JSON stream
+- support convert key-value JSON to slice JSON
 
 ```bash
 # format json string

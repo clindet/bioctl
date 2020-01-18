@@ -17,7 +17,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.8 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
-	github.com/openbiox/ligo v0.0.0-20200116154145-6499b7fbfa1f
+	github.com/openbiox/ligo v0.0.0-20200118071238-d342cb716c4e
 	github.com/satori/go.uuid v1.2.0
 	github.com/shenwei356/bio v0.0.0-20191121152909-6a70336507b2 // indirect
 	github.com/shenwei356/bpool v0.0.0-20160710042833-f9e0ee4d0403 // indirect

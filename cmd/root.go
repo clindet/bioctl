@@ -7,8 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var version = "v0.1.0-1"
-
 // RootClisT is the bioctl global flags
 type RootClisT struct {
 	// version of bioctl
@@ -18,11 +16,13 @@ type RootClisT struct {
 	TaskID    string
 	LogDir    string
 	Clean     bool
+	Outfn     string
+	Thread    int
 	HelpFlags bool
 }
 
 var rootClis = RootClisT{
-	Version:   "v0.1.0",
+	Version:   version,
 	Verbose:   1,
 	HelpFlags: true,
 }

@@ -30,6 +30,8 @@ func setGlobalFlag(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringVarP(&(rootClis.LogDir), "log-dir", "", path.Join(wd, "_log"), "log dir.")
 	cmd.PersistentFlags().BoolVarP(&(rootClis.SaveLog), "save-log", "s", false, "Save log to file.")
 	cmd.PersistentFlags().BoolVarP(&(rootClis.Clean), "clean", "", false, "Remove log dir.")
+	cmd.PersistentFlags().StringVarP(&rootClis.Outfn, "outfn", "o", "", "Out specifies destination of the returned data (default to stdout).")
+
 }
 func initCmd(cmd *cobra.Command, args []string) {
 	setLog()

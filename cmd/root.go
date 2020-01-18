@@ -61,7 +61,6 @@ func Execute() {
 func init() {
 	wd, _ = os.Getwd()
 	rootCmd.Version = version
-	rootCmd.Example = `  bioctl -u 'test.zip test.tar.gz'`
 	rootCmd.Flags().StringVarP(&(rootClis.Uncompress), "uncompress", "u", "", "uncompress files.")
 	rootCmd.AddCommand(FnCmd)
 	rootCmd.AddCommand(FmtCmd)
@@ -69,7 +68,7 @@ func init() {
 	rootCmd.AddCommand(PlotCmd)
 	rootCmd.AddCommand(RangeCmd)
 	rootCmd.AddCommand(RandCmd)
-	rootCmd.AddCommand(TimeCmd)
+	rootCmd.AddCommand(MathCmd)
 	rootCmd.AddCommand(ConvertCmd)
 	setGlobalFlag(rootCmd)
 }

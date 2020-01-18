@@ -74,5 +74,10 @@ func init() {
 	PlotCmd.Flags().BoolVarP(&PlotClis.ShowThemes, "show-themes", "", false, "returns all theme.")
 	PlotCmd.Flags().BoolVarP(&PlotClis.ShowThemesName, "show-themes-name", "", false, "returns all theme names.")
 
-	PlotCmd.Example = ``
+	PlotCmd.Example = `  # show all themes
+  bioctl plot --show-themes
+  # show all theme names
+  bioctl plot --show-themes-name
+  # returns color theme
+  bioctl plot --theme red_blue`
 }

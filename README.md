@@ -11,7 +11,7 @@
 wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl.exe
 
 # osx
-wget https://github.com/openbiox/bioctl/releases/download/v0.1./bioctl_osx
+wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl_osx
 mv bioctl_osx bioctl
 chmod a+x bioctl
 
@@ -63,10 +63,10 @@ bget api ncbi -d 'sra' -q PRJNA527715 | bioctl cvrt --xml2json sra -
 - support convert key-value JSON to slice JSON
 
 ```bash
-# format json string
-echo '{"a":1, "b":123}' | bioctl fmt --json-pretty -
-
-bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damage to induce autophagy OR MTOR-independent autophagy induced by interrupted endoplasmic reticulum-mitochondrial Ca2+ communication: a dead end in cancer cells. OR The PARK10 gene USP24 is a negative regulator of autophagy and ULK1 protein stability OR Coordinate regulation of autophagy and the ubiquitin proteasome system by MTOR." | bget api ncbi --xml2json pubmed - | sed 's;}{;,;g' | bioctl fmt --json-to-slice --indent 4 -
+# json pretty
+echo '{"a": {"a": 123}, "b": {"b": 567}}' | bioctl fmt --json-pretty --indent 2 -
+# key:value => slice
+echo '{"a": {"a": 123}, "b": {"b": 567}}' | bioctl fmt --json-to-slice --indent 4 -
 ```
 
 ### Simple file stat
@@ -77,6 +77,70 @@ bget api ncbi -q "Galectins control MTOR and AMPK in response to lysosomal damag
 bioctl fn -l *
 
 bioctl fn -l * --verbose 0
+```
+
+### Uncompress files
+
+```bash
+mkdir a
+mkdir b
+
+zip -q -r -o myfile.zip a
+tar -czvf myfile.tar.gz b
+rmdir a
+rmdir b
+
+bioctl -u 'myfile.zip myfile.tar.gz'
+
+ls -l
+
+rmdir a
+rmdir b
+rm myfile.zip myfile.tar.gz
+```
+
+### Random
+
+```bash
+# UUID
+bioctl rand --uuid -n 10
+# string
+bioctl rand --str -l 35 -n 22
+# int
+bioctl rand --int -l 23 -n 10
+```
+
+### Plot related
+
+```bash
+# show all themes
+bioctl plot --show-themes
+# show all theme names
+bioctl plot --show-themes-name
+# returns color theme
+bioctl plot --theme red_blue
+```
+
+### Range
+
+```bash
+# range number sequence
+bioctl range 1 100 2.5
+bioctl range --start 2 --end 1000 --step 15
+
+# char mode
+bioctl range --mode char --step 5
+bioctl range --mode char --step 3 --start-char s --end-char z --step 2 --ref-str qrstuvwxy12442z
+bioctl range --mode char --step 3 --start-char s --end-char z --step 2 --ref-str qrstuvwxy12442z --sep ''
+```
+
+### Math
+
+```bash
+bioctl math --min 1 2 3 4 5 100
+bioctl math --max 1 2 3 4 5
+bioctl math --mean 1 3 5 7 9 26 100
+bioctl math --median 1 10 3 4 100 143 123 12 22.2
 ```
 
 ## Maintainer

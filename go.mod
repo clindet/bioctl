@@ -7,7 +7,7 @@ require (
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
-	github.com/openbiox/ligo v0.0.0-20200118071238-d342cb716c4e
+	github.com/openbiox/ligo v0.0.0-20200119135627-2571ec0d416e
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5

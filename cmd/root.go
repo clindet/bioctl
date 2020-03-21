@@ -68,7 +68,7 @@ func init() {
 	rootCmd.AddCommand(PlotCmd)
 	rootCmd.AddCommand(RangeCmd)
 	rootCmd.AddCommand(RandCmd)
-	rootCmd.AddCommand(MathCmd)
+	rootCmd.AddCommand(StatCmd)
 	rootCmd.AddCommand(ConvertCmd)
 	setGlobalFlag(rootCmd)
 }

@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	cvrt "github.com/openbiox/ligo/convert"
@@ -71,4 +72,22 @@ func cleanLog() {
 	if err := os.RemoveAll(rootClis.LogDir); err != nil {
 		log.Warn(err)
 	}
+}
+
+func convertIndex(str string) (index []int) {
+	indexTmp := strings.Split(str, ";")
+	for i := range indexTmp {
+		if strings.Contains(indexTmp[i], ":") {
+			startEnd := strings.Split(indexTmp[i], ":")
+			start, _ := strconv.ParseInt(startEnd[0], 10, 64)
+			end, _ := strconv.ParseInt(startEnd[1], 10, 64)
+			for j := start; j < end+1; j++ {
+				index = append(index, int(j))
+			}
+		} else {
+			val, _ := strconv.ParseInt(indexTmp[i], 10, 64)
+			index = append(index, int(val))
+		}
+	}
+	return index
 }

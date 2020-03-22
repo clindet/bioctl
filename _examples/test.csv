@@ -1,0 +1,11 @@
+age,weight,c,d,e
+1,10,c,d,false
+2,11,c,d,true
+3,12,c,d,true
+4,13,c,d,true
+5,14,c,d,true
+6,15,c,d,true
+7,16,c,d,true
+8,18,c,d,true
+8,19,b,c,true
+-8,18,b,c,true

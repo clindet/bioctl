@@ -134,13 +134,31 @@ bioctl range --mode char --step 3 --start-char s --end-char z --step 2 --ref-str
 bioctl range --mode char --step 3 --start-char s --end-char z --step 2 --ref-str qrstuvwxy12442z --sep ''
 ```
 
-### Math
+### Stat
 
 ```bash
-bioctl math --min 1 2 3 4 5 100
-bioctl math --max 1 2 3 4 5
-bioctl math --mean 1 3 5 7 9 26 100
-bioctl math --median 1 10 3 4 100 143 123 12 22.2
+bioctl stat --min 1 2 3 4 5 100
+bioctl stat --max 1 2 3 4 5
+bioctl stat --mean 1 3 5 7 9 26 100
+bioctl stat --median 1 10 3 4 100 143 123 12 22.2
+bioctl stat --mfreq 2 10 2 2 10 10 11 12 14
+bioctl stat --var 2 10 2 2 10
+bioctl stat --sum 1 1 2 3 2 14234 12 12 1331 23 12 12
+// vector1: 1-6 vector2: 10-51
+bioctl stat --pearson 1 2 3 4 5 6 10 20 30 40 50 51
+bioctl stat --percentile 30 1 2 3 4 5 6 7 8 9 10
+bioctl stat --freq 1 2 3 2 1 1 1 1 1 1 | sort
+
+bioctl statdf --min _examples/test.csv --at ",0"
+bioctl statdf --max _examples/test.csv --at ",0"
+bioctl statdf --mean _examples/test.csv --at ",0"
+bioctl statdf --median _examples/test.csv --at ",0"
+bioctl statdf --mfreq _examples/test.csv --at ",0"
+bioctl statdf --var _examples/test.csv --at ",0"
+bioctl statdf --sum _examples/test.csv --at ",0"
+bioctl statdf --pearson _examples/test.csv --at ",0:1" --print
+bioctl statdf --percentile 30 _examples/test.csv --at ",0"
+bioctl statdf --freq _examples/test.csv --at ",0" | sort
 ```
 
 ## Maintainer

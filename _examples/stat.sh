@@ -18,3 +18,5 @@ bioctl stat --pearson 1 2 3 4 5 6 10 20 30 40 50 51
 bioctl stat --percentile 30 1 2 3 4 5 6 7 8 9 10
 
 bioctl stat --freq 1 2 3 2 1 1 1 1 1 1 1 1 123 124 12 | sort
+
+bioctl statdf --pearson _examples/test.csv --at ",0:1" --print

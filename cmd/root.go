@@ -62,13 +62,14 @@ func init() {
 	wd, _ = os.Getwd()
 	rootCmd.Version = version
 	rootCmd.Flags().StringVarP(&(rootClis.Uncompress), "uncompress", "u", "", "uncompress files.")
-	rootCmd.AddCommand(FnCmd)
 	rootCmd.AddCommand(FmtCmd)
 	rootCmd.AddCommand(ParCmd)
 	rootCmd.AddCommand(PlotCmd)
 	rootCmd.AddCommand(RangeCmd)
 	rootCmd.AddCommand(RandCmd)
 	rootCmd.AddCommand(StatCmd)
+	rootCmd.AddCommand(StatDfCmd)
+	rootCmd.AddCommand(StatFnCmd)
 	rootCmd.AddCommand(ConvertCmd)
 	setGlobalFlag(rootCmd)
 }
@@ -87,8 +88,5 @@ func uncompress(cmd *cobra.Command, args []string) {
 			}
 		}
 		rootClis.HelpFlags = false
-	}
-	if rootClis.HelpFlags {
-		cmd.Help()
 	}
 }

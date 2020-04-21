@@ -1,27 +1,27 @@
-<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Life cycle: experimental"> <a href="https://godoc.org/github.com/openbiox/bioctl"><img src="https://godoc.org/github.com/openbiox/bioctl?status.svg" alt="GoDoc"></a>
+<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Life cycle: experimental"> <a href="https://godoc.org/github.com/openanno/bioctl"><img src="https://godoc.org/github.com/openanno/bioctl?status.svg" alt="GoDoc"></a>
 
 ## bioctl
 
-[bioctl](https://github.com/openbiox/bioctl) is a simple command line tool to facilitate the data analysis.
+[bioctl](https://github.com/openanno/bioctl) is a simple command line tool to facilitate the data analysis.
 
 ## Installation
 
 ```bash
 # windows
-wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl.exe
+wget https://github.com/openanno/bioctl/releases/download/v0.1.1/bioctl.exe
 
 # osx
-wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl_osx
+wget https://github.com/openanno/bioctl/releases/download/v0.1.1/bioctl_osx
 mv bioctl_osx bioctl
 chmod a+x bioctl
 
 # linux
-wget https://github.com/openbiox/bioctl/releases/download/v0.1.1/bioctl_linux64
+wget https://github.com/openanno/bioctl/releases/download/v0.1.1/bioctl_linux64
 mv bioctl_linux64 bioctl
 chmod a+x bioctl
 
 # get latest version
-go get -u github.com/openbiox/bioctl
+go get -u github.com/openanno/bioctl
 ```
 
 ## Usage

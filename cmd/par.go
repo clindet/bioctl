@@ -55,6 +55,7 @@ func parCmdRunOptions(cmd *cobra.Command, args []string) {
 }
 
 func init() {
+	ParCmd.Flags().BoolVarP(&ParClis.SaveProgerss, "save-progress", "", false, "save probress bar to file.")
 	ParCmd.Flags().StringVarP(&ParClis.Index, "index", "", "", "task index (e.g. 1,2,5-10).")
 	ParCmd.Flags().StringVarP(&ParClis.ForceAddIdx, "force-idx", "", "true", "force to add {{index}} at the end of --cmd.")
 	ParCmd.Flags().StringVarP(&ParClis.Env, "env", "", "", "environment (key1:value1,key2:value2).")

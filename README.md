@@ -1,27 +1,23 @@
-<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Life cycle: experimental"> <a href="https://godoc.org/github.com/openanno/bioctl"><img src="https://godoc.org/github.com/openanno/bioctl?status.svg" alt="GoDoc"></a>
+<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Life cycle: experimental"> <a href="https://godoc.org/github.com/clindet/bioctl"><img src="https://godoc.org/github.com/clindet/bioctl?status.svg" alt="GoDoc"></a>
 
 ## bioctl
 
-[bioctl](https://github.com/openanno/bioctl) is a simple command line tool to facilitate the data analysis.
+[bioctl](https://github.com/clindet/bioctl) is a simple command line tool to facilitate the data analysis.
 
 ## Installation
 
 ```bash
 # windows
-wget https://github.com/openanno/bioctl/releases/download/v0.1.1/bioctl.exe
+wget https://github.com/clindet/bioctl/releases/download/v0.1.2/bioctl_0.1.2_Windows_64-bit.tar.gz
 
 # osx
-wget https://github.com/openanno/bioctl/releases/download/v0.1.1/bioctl_osx
-mv bioctl_osx bioctl
-chmod a+x bioctl
+wget https://github.com/clindet/bioctl/releases/download/v0.1.2/bioctl_0.1.2_Darwin_64-bit.tar.gz
 
 # linux
-wget https://github.com/openanno/bioctl/releases/download/v0.1.1/bioctl_linux64
-mv bioctl_linux64 bioctl
-chmod a+x bioctl
+wget https://github.com/clindet/bioctl/releases/download/v0.1.2/bioctl_0.1.2_Linux_64-bit.tar.gz
 
 # get latest version
-go get -u github.com/openanno/bioctl
+go get -u github.com/clindet/bioctl
 ```
 
 ## Usage

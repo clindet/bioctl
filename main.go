@@ -15,7 +15,7 @@
 package main
 
 import (
-	"github.com/openanno/bioctl/cmd"
+	"github.com/clindet/bioctl/cmd"
 )
 
 func main() {

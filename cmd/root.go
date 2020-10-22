@@ -34,7 +34,7 @@ var rootClis = RootClisT{
 var rootCmd = &cobra.Command{
 	Use:   "bioctl",
 	Short: "A simple command line tool to facilitate the data analysis",
-	Long:  `A simple command line tool to facilitate the data analysis. More see here https://github.com/openanno/bioctl.`,
+	Long:  `A simple command line tool to facilitate the data analysis. More see here https://github.com/clindet/bioctl.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if rootClis.Clean || rootClis.Uncompress != "" {
 			initCmd(cmd, args)
